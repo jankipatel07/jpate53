@@ -1,0 +1,14 @@
+import java.io.*;
+
+public class messageBlocking{
+  private File f;
+  private int blockSize;
+  
+  public messageBlocking(String fileName, int x){
+    f = new File(fileName);
+    blockSize = x;
+    
+  }
+
+
+}

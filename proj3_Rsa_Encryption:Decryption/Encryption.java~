@@ -1,0 +1,39 @@
+/** Tan Le (tle51) & Janki Patel (jpate53)
+  * CS 342 - Project 3: RSA Encryption/Decryption
+  * Encryption Class - Encrypt a block file using a public key
+  */
+
+import org.w3c.dom.*;
+import javax.xml.parsers.*;
+import java.io.*;
+
+public class Encryption{
+  private int e;
+  private int n;
+  private int i;
+  private String xmlName;
+  private File xmlFile;
+  
+  //Constructor
+  public Encryption(String filePath){
+    xmlName = filePath;
+    xmlFile = new File(xmlName);
+  }
+  
+  //Read XML file
+  public void readXML(){
+    Document doc = builder.parse(xmlFile);
+    NodeList nList = doc.getElementsByTagName("rsakey");
+    for(i=0; i<nList.getLength(); i++){
+      Node node = nList.item(i);
+      if(node.getNodeType() == Node.ELEMENT_NODE){
+        Element nodeElement = (Element) node;
+        System.out.println("e: " + nodeElement.getAttribut("evalue");
+        System.out.println("d: " + nodeElement.getAttribut("dvalue");
+      }
+    }
+    
+  }
+  
+  
+}
