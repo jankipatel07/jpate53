@@ -68,7 +68,7 @@ public class MessageBlocking{
                 }
                 asciiValue =  tempChar + asciiValue;
             }
-            System.out.println(asciiValue);
+            //System.out.println(asciiValue);
             fRead.close();
         }
         catch(IOException e){
@@ -128,7 +128,7 @@ public class MessageBlocking{
             //Fill in 0's
             blockString = "0" + blockString;
         }
-        System.out.println(blockString);
+        //System.out.println(blockString);
         //Write leftover to file
         try{
             fWrite = new BufferedWriter(new FileWriter(blockFile,true)); //Temp file for testing

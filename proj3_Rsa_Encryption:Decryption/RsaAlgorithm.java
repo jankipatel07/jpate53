@@ -165,6 +165,7 @@ public class RsaAlgorithm
         HugeUnsignedInteger denominator = new HugeUnsignedInteger(e);
         
         d = numerator.division(denominator);
+        System.out.println("d is " + d);  //Test
     }
     
     //get the value of d

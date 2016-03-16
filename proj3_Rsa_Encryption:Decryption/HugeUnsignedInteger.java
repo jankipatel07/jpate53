@@ -271,14 +271,15 @@ public class HugeUnsignedInteger{
                         resultArr[i+j] = tempAdd - 10;
                         resultArr[i+j+1] = resultArr[i+j+1] + 1;
                     }
-                    int tempAdd2 = resultArr[i+j+1] + (tempProduct / 10 % 10);
-                    if(tempAdd2 < 10){
-                        resultArr[i+j+1] = tempAdd2;
-                    }
-                    else{
-                        resultArr[i+j+1] = tempAdd2 - 10;
-                        resultArr[i+j+2] =  resultArr[i+j+2] + 1;
-                    }
+                    
+                }
+                int tempAdd2 = resultArr[i+j+1] + (tempProduct / 10 % 10);
+                if(tempAdd2 < 10){
+                  resultArr[i+j+1] = tempAdd2;
+                }
+                else{
+                  resultArr[i+j+1] = tempAdd2 - 10;
+                  resultArr[i+j+2] =  resultArr[i+j+2] + 1;
                 }
             }
         }
@@ -424,6 +425,9 @@ public class HugeUnsignedInteger{
             for(i=numDigit-1; i>=0; i--){
                 if(arr[i] > value2.arr[i]){
                     return 1;
+                }
+                if(arr[i] < value2.arr[i]){
+                  return 0;
                 }
             }
         }

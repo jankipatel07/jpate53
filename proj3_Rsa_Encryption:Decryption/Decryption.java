@@ -13,24 +13,24 @@ public class Decryption{
     private int i, blockSize;
     private String privateName;
     private File privateFile;  //Private key file
-    private String eName = "encrypt.txt";
-    private String dName = "decrypt.txt";
-    private File eFile = new File(eName);  //Encrypted File
-    private File dFile = new File(dName);  //Decrypted File
+    private String eName;
+    private String dName;
+    private File eFile;
+    private File dFile;
     
     //Constructor
-    public Decryption(String filePath, int block){
-        privateName = filePath;
-        
-        //add file extention if it's not entered by the user
-        if(!privateName.endsWith(".txt"))
-        {
-            privateName = filePath.concat(".txt");
-        }
+    public Decryption(String filePath, int block, String savePath, String ePath){
+        privateName = filePath.concat(".txt");
+        dName = savePath.concat(".txt");
+        dFile = new File(dName);  //Decrypted File
+        eName = ePath.concat(".txt");
+        eFile = new File(eName); //Encrypted File
         privateFile = new File(privateName);
         blockSize = block;
+        System.out.println("---Inside Decryption Class---");  //Test
         readXML();
         decrypt();
+        System.out.print("");  //Test
     }
     
     //Read XML File
@@ -52,8 +52,8 @@ public class Decryption{
                     tempN = elementValue.getElementsByTagName("nvalue").item(0).getTextContent();
                     n = new HugeUnsignedInteger(tempN);
                     
-                    System.out.println("d: " + d.value);
-                    System.out.println("n: " + n.value);
+                    System.out.println("D: " + d.value);  //Test
+                    System.out.println("N: " + n.value);  //Test
                 }
             }
         }
@@ -71,9 +71,11 @@ public class Decryption{
         HugeUnsignedInteger fVal;
         HugeUnsignedInteger expVal;
         HugeUnsignedInteger dd;
+        HugeUnsignedInteger one = new HugeUnsignedInteger("1");
+        HugeUnsignedInteger two = new HugeUnsignedInteger("2");
         //Read each block
         try{
-            BufferedReader fRead = new BufferedReader(new FileReader(eFile));
+            BufferedReader fRead2 = new BufferedReader(new FileReader(eFile));
             
             //Output File
             if(dFile.exists()){
@@ -83,55 +85,20 @@ public class Decryption{
             BufferedWriter fWrite = new BufferedWriter(new FileWriter(dFile, true));
             
             //int c;
-            while((tempString = fRead.readLine()) != null){
+            while((tempString = fRead2.readLine()) != null){
                 //Convert to HugeUnsignedInteger
                 //inputNumber = new HugeUnsignedInteger(tempString);
                 expVal = new HugeUnsignedInteger(tempString);
-                //System.out.println(tempString);
-                //System.out.println(d.value);
-                //System.out.println(n.value);
+                System.out.println("Decrpytion Input: " + tempString);  //Test
+                System.out.println("D: " + d.value);  //Test
+                System.out.println("N: " + n.value);  //Test
                 //C=M^d mod n
                 //P = C^x * (exp^2 % n)^d % n
-                HugeUnsignedInteger one = new HugeUnsignedInteger("1");
-                HugeUnsignedInteger two = new HugeUnsignedInteger("2");
                 fVal = new HugeUnsignedInteger("1");
                 dd = new HugeUnsignedInteger(d.value);
                 //System.out.println(d.value);
                 while(dd.equalTo(one) == 0){  //d != 1
-                    //          //Check if d value is even or odd
-                    //          if(d.modulus(two).equals("1")){  //Odd
-                    //            //c * c
-                    //            String cResult = fVal.multiplication(inputNumber);
-                    //            fVal = new HugeUnsignedInteger(cResult);
-                    //            //exp * exp
-                    //            String expResult = expVal.multiplication(expVal);
-                    //            expVal = new HugeUnsignedInteger(expResult);
-                    //            //exp % n
-                    //            expResult = expVal.modulus(n);
-                    //            expVal = new HugeUnsignedInteger(expResult);
-                    //            try{
-                    //            //d-1
-                    //              String newD = dd.subtraction(one);
-                    //              dd = new HugeUnsignedInteger(newD);
-                    //            }
-                    //            catch(SubtractionException ee){
-                    //              System.err.println(ee);
-                    //            }
-                    //          }
-                    //          else{  //Even
-                    //            //c * 1
-                    //            String cResult = fVal.multiplication(one);
-                    //            fVal = new HugeUnsignedInteger(cResult);
-                    //            //exp * exp
-                    //            String expResult = expVal.multiplication(expVal);
-                    //            expVal = new HugeUnsignedInteger(expResult);
-                    //            //exp % n
-                    //            expResult = expVal.modulus(n);
-                    //            expVal = new HugeUnsignedInteger(expResult);
-                    //          }
-                    //          String divideD = dd.division(two);
-                    //          dd = new HugeUnsignedInteger(divideD);
-                    
+                   
                     if(dd.modulus(two).equals("1")){  //Odd
                         String fResult = fVal.multiplication(expVal);
                         fVal = new HugeUnsignedInteger(fResult);
@@ -145,24 +112,14 @@ public class Decryption{
                             System.err.println(ee);
                         }
                     }
-                    //exp * exp
-                    //System.out.println(expVal.value);
-                    String expResult1 = expVal.multiplication(expVal);
-                    expVal = new HugeUnsignedInteger(expResult1);
-                    //exp % n
-                    expResult1 = expVal.modulus(n);
-                    expVal = new HugeUnsignedInteger(expResult1);
+                    expVal = new HugeUnsignedInteger(expVal.multiplication(expVal));
+                    expVal = new HugeUnsignedInteger(expVal.modulus(n));
                     
-                    String divideD = dd.division(two);
-                    dd = new HugeUnsignedInteger(divideD);
+                    dd = new HugeUnsignedInteger(dd.division(two));
                 }
-                //When d is equal to 1
-                //System.out.println(fVal.value);
-                String expResult = expVal.multiplication(fVal);
-                expVal = new HugeUnsignedInteger(expResult);
-                String resultVal = expVal.modulus(n);
-                outputNumber = new HugeUnsignedInteger(resultVal);
-                //System.out.println(outputNumber.value);
+                expVal = new HugeUnsignedInteger(expVal.multiplication(fVal));
+                outputNumber = new HugeUnsignedInteger(expVal.modulus(n));
+                System.out.println("Decryption Output: " + outputNumber.value);  //Test
                 
                 //Insert leading zeros
                 String outputLen = outputNumber.value;
@@ -170,13 +127,20 @@ public class Decryption{
                 {
                     outputLen = "0" + outputLen;
                 }
+                //Odd number that is greater than total block size
+                HugeUnsignedInteger overCount = new HugeUnsignedInteger(Integer.toString(outputLen.length()));
+                HugeUnsignedInteger tt2 = new HugeUnsignedInteger("2");
+                if(overCount.modulus(tt2).equals("1")){  //Odd length
+                  outputLen = "0" + outputLen;
+                }
                 
                 //Write to file
                 fWrite.write(outputLen);
                 fWrite.newLine();
+                tempString = "";
             }
             fWrite.close();
-            fRead.close();
+            fRead2.close();
         }
         catch(IOException e){
             System.err.println(e);

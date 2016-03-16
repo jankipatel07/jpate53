@@ -47,9 +47,6 @@ public class Encryption{
                     //Get n value
                     tempN = elementValue.getElementsByTagName("nvalue").item(0).getTextContent();
                     n = new HugeUnsignedInteger(tempN);
-                    
-                    System.out.println("e: " + e.value);
-                    System.out.println("n: " + n.value);
                 }
             }
         }
@@ -80,24 +77,8 @@ public class Encryption{
             
             //int c;
             while((tempString = fRead.readLine()) != null){
-                
-                //        //Flip
-                //        StringReader ssRead = new StringReader(tempString);
-                //        String reverseString = "";
-                //        try{
-                //          for(i=0; i<tempString.length(); i++){
-                //            char c = (char) ssRead.read();
-                //            reverseString = c + reverseString;
-                //          }
-                //        }
-                //        catch(IOException e){
-                //          System.err.println(e);
-                //        }
-                
                 //Remove leading zero
-                //System.out.println(tempString);
                 StringReader strRead = new StringReader(tempString);
-                //StringReader strRead = new StringReader(reverseString);
                 tempString2 = "";
                 int zeroCount = 0;
                 try{
@@ -119,30 +100,18 @@ public class Encryption{
                 if(tempString2.equals("")){
                     tempString2 = "0";
                 }
-                System.out.println(tempString2);
                 
                 //Convert to HugeUnsignedInteger
                 inputNumber = new HugeUnsignedInteger(tempString2);
-                outputNumber = new HugeUnsignedInteger("1");
-                for(i=0; i < intE; i++)
-                {
-                    outputNumber = new HugeUnsignedInteger(outputNumber.multiplication(inputNumber));
-                }
-                System.out.println(outputNumber.value);
-                outputNumber = new HugeUnsignedInteger(outputNumber.modulus(n));
                 //C=M^e mod n
-                //outputNumber = new HugeUnsignedInteger("1");  //C = 1
-                //        for(i=0; i<intE; i++){
-                //          //System.out.println(i);
-                //          resultString = outputNumber.multiplication(inputNumber);
-                //          //System.out.println("1: " + resultString);
-                //          tempNumber =  new HugeUnsignedInteger(resultString);
-                //          resultString = tempNumber.modulus(n);
-                //          //System.out.println("2: " + resultString);
-                //          outputNumber =  new HugeUnsignedInteger(resultString);
-                //        }
+                outputNumber = new HugeUnsignedInteger("1");  //C = 1
+                for(i=0; i<intE; i++){
+                  resultString = outputNumber.multiplication(inputNumber);
+                  tempNumber = new HugeUnsignedInteger(resultString);
+                  resultString = tempNumber.modulus(n);
+                  outputNumber = new HugeUnsignedInteger(resultString);
+                }
                 //Write to file
-                System.out.println(outputNumber.value);
                 fWrite.write(outputNumber.value);
                 fWrite.newLine();
             }

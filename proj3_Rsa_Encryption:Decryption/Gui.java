@@ -165,8 +165,8 @@ public class Gui extends JFrame implements ActionListener{
         String prime1 = primeField.getText();
         String prime2 = primeField2.getText();
         
-        //		primeStr1 = prime1;
-        //		primeStr2 = prime2;
+        //  primeStr1 = prime1;
+        //  primeStr2 = prime2;
         
         //Check if the values are prime number
         if(primeCheck(prime1) && primeCheck(prime2))
@@ -343,11 +343,12 @@ public class Gui extends JFrame implements ActionListener{
         unblockPanel = new JPanel();
         
         //Get name of the block file.
-        String unblockFile = JOptionPane.showInputDialog("Enter filename containg the decrypted block file.");
+        String unblockFile = JOptionPane.showInputDialog("Enter filename containing the decrypted block file.");
+        String saveFile = JOptionPane.showInputDialog("Enter name of file to save unblocked message.");
         
-        if(unblockFile != null)
+        if(unblockFile != null && saveFile != null)
         {
-            MessageUnblocking unblocking = new MessageUnblocking(unblockFile);
+            MessageUnblocking unblocking = new MessageUnblocking(unblockFile, saveFile);
             
             JLabel l = new JLabel("Unblocking File successfully done.");
             unblockPanel.add(l);
@@ -370,7 +371,8 @@ public class Gui extends JFrame implements ActionListener{
         
         //Get name of the block file.
         String encryptFile = JOptionPane.showInputDialog("Enter file name of the public key.");
-        eFile = JOptionPane.showInputDialog("Enter file name to save the encrypt file.");
+        blockFile = JOptionPane.showInputDialog("Enter file name of the blocked file.");
+        eFile = JOptionPane.showInputDialog("Enter file name to save the encrypted file.");
         
         System.out.println(blockFile);
         if(encryptFile != null && eFile != null)
@@ -388,7 +390,7 @@ public class Gui extends JFrame implements ActionListener{
             
             setVisible(true);
         }
-    }	
+    } 
     
     //Display Unblocked File's information
     public void decryptMenu()
@@ -400,9 +402,9 @@ public class Gui extends JFrame implements ActionListener{
         String eFile2 = JOptionPane.showInputDialog("Enter file name of the encrypted file.");
         String saveFile = JOptionPane.showInputDialog("Enter file name to save the decrypt file.");
         
-        if(decryptFile != null && saveFile != null && eFile2 != null)
+        if(decryptFile != null && saveFile != null && eFile2 != null && blockSize != null)
         {
-            Decryption decrypt = new Decryption(decryptFile, Integer.parseInt(blockSize), saveFile, eFile2);		
+            Decryption decrypt = new Decryption(decryptFile, Integer.parseInt(blockSize), saveFile, eFile2);  
             JLabel l = new JLabel("Decryption done successfully.");
             decryptPanel.add(l);
             
@@ -416,7 +418,7 @@ public class Gui extends JFrame implements ActionListener{
             setVisible(true);
         }
     }
-				
+    
     //Message displaying information about the program.
     private void about()
     {

@@ -21,8 +21,8 @@ How to Use This Program:
 	- First, the user is prompt to enter a file name that contains a message that needs to be blocked.
 	- Then, the user is prompt to enter a file name where the block will be saved.
 	- Finally, the user is asked to enter a block size. Since the block size is deepened on the length 	  of the prime number, we have given some suggestions when the user is prompted for the block size.
-- When the “Encrypt” menu is selected, the user is asked to enter a file name of the public key.
+- When the “Encrypt” menu is selected, the user is asked to enter a file name of the public key and the blocked file.
   User is also asked to enter file name to save the encrypted block. 
 - To decrypt a file, enter a file of of the private key and file name of the encrypted block 
   and a file name to store the decrypted block. 
-- To unblock the decryption file, enter the file name of the decrypted block. 
+- To unblock the decryption file, enter the file name of the decrypted block and where you want to save the unblocked message. 
